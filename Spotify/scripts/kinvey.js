@@ -11,11 +11,13 @@ const kinvey = (() => {
     function makeAuth(auth) {
         if (auth.toLowerCase() == "basic") {
             return {
-                "Authorization": `Basic ${btoa(APP_KEY + ":" + APP_SECRET)}`
+                "Authorization": `Basic ${btoa(APP_KEY + ":" + APP_SECRET)}`,
+                "Content-Type": "application/json"
             };
         } else if (auth.toLowerCase() == "kinvey") {
             return {
-                "Authorization": `Kinvey ${sessionStorage.getItem("authtoken")}`
+                "Authorization": `Kinvey ${sessionStorage.getItem("authtoken")}`,
+                "Content-Type": "application/json"
             };
         }
     }
@@ -37,7 +39,7 @@ const kinvey = (() => {
     function post(collection, endPoint, auth, data) {
         let request = makeRequest(POST_METHOD, collection, endPoint, auth);
         request.data = data;
-
+        
         return $.ajax(request);
     }
 

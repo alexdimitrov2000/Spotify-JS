@@ -7,12 +7,16 @@ const userService = (() => {
         return sessionStorage.getItem("username");
     }
 
+    function getCurrentUserId() {
+        return sessionStorage.getItem("id");
+    }
+
     function register(username, password) {
-        return kinvey.post("user", "", "basic", { username, password });
+        return kinvey.post("user", "", "basic", JSON.stringify({ username, password }));
     }
     
     function login(username, password) {
-        return kinvey.post("user", "login", "basic", { username, password });
+        return kinvey.post("user", "login", "basic", JSON.stringify({ username, password }));
     }
 
     function logout() {
@@ -22,6 +26,7 @@ const userService = (() => {
     function saveSession(res) {
         sessionStorage.setItem("username", res.username);
         sessionStorage.setItem("authtoken", res._kmd.authtoken);
+        sessionStorage.setItem("id", res._id);
     }
 
     return {
@@ -30,6 +35,7 @@ const userService = (() => {
         register,
         login,
         logout,
-        saveSession
+        saveSession,
+        getCurrentUserId
     }
 })();
